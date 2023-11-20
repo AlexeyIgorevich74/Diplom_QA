@@ -1,16 +1,14 @@
 #Алексей Шалдин, 10-я когорта — Финальный проект. Инженер по тестированию плюс
 import config
 import requests
-import data
 
-def post_new_order(): #Функция делает запрос на создание нового заказа
-    return requests.post(config.URL_SERVICE + config.CREATE_ORDERS,
-                         json=data.order_body,)
+def post_new_order(body): #Функция создает новый заказ и возвращает трек-номер
+    response = requests.post(config.URL_SERVICE + config.CREATE_ORDERS,
+                         json=body)
+    return response.json()['track']
 
-#Функция превращает в строку полученный номер заказа, подставляет в путь запроса на получение заказа
-#и делает запрос с новым номером заказа
-def get_order_track():
-    response = post_new_order()
-    track_number = str(response.json()['track'])
-    return requests.get(config.URL_SERVICE + config.GET_TRACK + track_number,)
 
+
+def get_order_track(track_number): #Функция отправляет запрос на получение заказа по трек-номеру
+    return requests.get(config.URL_SERVICE + config.GET_TRACK,
+                        params=track_number)
