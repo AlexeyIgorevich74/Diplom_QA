@@ -6,7 +6,7 @@ import data
 #Функция создает заказ, забирает трек-номер и передает его на получение заказа по трек-номеру
 #проверяет что код ответа 200
 def positive_assert(body):
-    track = sender_stand_request.post_new_order(body)
+    track = sender_stand_request.post_new_order(body).json()['track']
     track_number = {'t': track}
     order_response = sender_stand_request.get_order_track(track_number)
 
